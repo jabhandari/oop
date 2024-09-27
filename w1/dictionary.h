@@ -39,10 +39,12 @@ namespace seneca {
         Dictionary& operator=(const Dictionary& other);
         Dictionary(Dictionary&& other) noexcept;
         Dictionary& operator=(Dictionary&& other) noexcept;
+        ~Dictionary();
+
+
         void loadFromFile(const char* filename);
         PartOfSpeech parsePartOfSpeech(const std::string& pos);
         Dictionary(const char* filename);
-        ~Dictionary();
         void searchWord(const char* word);
 
     
