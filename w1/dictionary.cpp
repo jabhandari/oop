@@ -75,7 +75,7 @@ namespace seneca {
         delete[] m_words;
     }
 
-    void Dictionary::searchWord(const char* word)
+   /* void Dictionary::searchWord(const char* word)
     {
         static const char* posStrings[] = {
         "unknown",
@@ -101,5 +101,60 @@ namespace seneca {
         }
 
         std::cout << "Word '" << word << "' was not found in the dictionary." << std::endl;
+    }*/
+    void Dictionary::searchWord(const char* word)
+    {
+        static const char* posStrings[] = {
+            "unknown",
+            "noun",
+            "pronoun",
+            "adjective",
+            "adverb",
+            "verb",
+            "preposition",
+            "conjunction",
+            "interjection"
+        };
+
+        bool found = false; // Boolean flag to track if any matches are found
+
+        for (size_t i = 0; i < m_size; ++i) {
+            // Compare the current word with the search word
+            if (m_words[i].m_word == std::string(word)) {
+                // If it's the first match, print the word
+                if (!found) {
+                    std::cout << m_words[i].m_word;  // Print the word for the first match
+                }
+                else {
+                    // Print spaces equal to the length of the word for alignment
+                    std::cout << std::string(m_words[i].m_word.length(), ' ');
+                }
+
+                std::cout << " - ";
+
+                // Check if verbose mode is on and the part of speech is known
+                if (seneca::g_settings.m_verbose && m_words[i].m_pos != PartOfSpeech::Unknown) {
+                    std::cout << "(" << posStrings[static_cast<int>(m_words[i].m_pos)] << ") ";
+                }
+
+                // Print the definition
+                std::cout << m_words[i].m_definition << std::endl;
+
+                found = true;  // Mark that a match was found
+
+                // If show-all is false, exit after the first match
+                if (!seneca::g_settings.m_show_all) {
+                    break;
+                }
+            }
+        }
+
+        // If no match was found, print a message
+        if (!found) {
+            std::cout << "Word '" << word << "' was not found in the dictionary." << std::endl;
+        }
     }
+
+
+
  }
