@@ -1,7 +1,7 @@
 #include "guild.h"
 
 namespace seneca {
-
+   
 
     seneca::Guild::Guild() :
         m_members(nullptr), m_size(0),
@@ -22,7 +22,7 @@ namespace seneca {
     seneca::Guild::Guild(const Guild& other) :
         m_size(other.m_size),
         m_capacity(other.m_capacity),
-        m_name(other.m_name) { // Change the order here
+        m_name(other.m_name) { 
         m_members = new Character * [m_capacity];
         for (size_t i = 0; i < m_size; ++i) {
             m_members[i] = other.m_members[i]->clone();
@@ -77,40 +77,43 @@ namespace seneca {
 
     void Guild::addMember(Character* c)
     {
-        for (size_t i = 0; i < m_size; ++i) {
-            if (m_members[i]->getName() == c->getName()) {
-                std::cout << "Character is already in the guild." << std::endl;
+        for (size_t i = 0; i < m_size; ++i)
+        {
+            if (m_members[i] == c)
+            {
+                std::cout << "Character is already in the guild.\n";
                 return;
             }
         }
-        if (m_size >= m_capacity) {
-            size_t newCapacity = (m_capacity == 0) ? 1 : m_capacity * 2;
-            Character** newArray = new Character * [newCapacity];
-            for (size_t i = 0; i < m_size; ++i) {
-                newArray[i] = m_members[i];
-            }
-            delete[] m_members;
-            m_members = newArray;
-            m_capacity = newCapacity;
+
+        if (m_size == m_capacity)
+        {
+            resize(m_capacity == 0 ? 2 : m_capacity * 2);
         }
-        c->increaseMaxHealth(300);
+
+        int newMaxHealth = c->getHealthMax() + 300;
+        c->setHealthMax(newMaxHealth);
         m_members[m_size++] = c;
     }
 
     void Guild::removeMember(const std::string& c)
     {
-        for (size_t i = 0; i < m_size; ++i) {
-            if (m_members[i]->getName() == c) {
-                m_members[i]->decreaseMaxHealth(300);
-                delete m_members[i];
-                for (size_t j = i; j < m_size - 1; ++j) {
+        for (size_t i = 0; i < m_size; ++i)
+        {
+            if (m_members[i]->getName() == c)
+            {
+                int newMaxHealth = m_members[i]->getHealthMax() - 300;
+                m_members[i]->setHealthMax(newMaxHealth);
+
+                for (size_t j = i; j < m_size - 1; ++j)
+                {
                     m_members[j] = m_members[j + 1];
                 }
                 --m_size;
                 return;
             }
         }
-        std::cout << "Character not found in guild." << std::endl;
+        std::cout << "Character not found in the guild.\n";
     }
 
     Character* Guild::operator[](size_t idx) const

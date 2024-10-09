@@ -8,7 +8,7 @@
 namespace seneca {
 	
 	template<typename T,typename Ability_t,typename Weapon_t>
-	class Barbarian : public CharacterTpl<T> {
+	class Barbarian : public characterTpl<T> {
 	private:
 		int m_baseDefense;
 		int m_baseAttack;
@@ -34,7 +34,7 @@ namespace seneca {
 
 			m_ability.useAbility(this);
 			int damage = getAttackAmnt();
-			m_ability.transformDamage(damage);
+			m_ability.transformDamageDealt(damage);
 			std::cout << "Barbarian deals " << damage << " melee damage!" << std::endl;
 
 			enemy->takeDamage(damage);

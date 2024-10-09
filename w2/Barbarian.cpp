@@ -41,7 +41,7 @@ namespace seneca {
         }
         m_ability.transformDamageReceived(dmg);
 
-        CharacterTpl<T>::takeDamage(dmg);
+        characterTpl<T>::takeDamage(dmg);
     }
 
 }

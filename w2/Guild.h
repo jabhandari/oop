@@ -14,7 +14,17 @@ namespace seneca {
 		size_t m_size;           
 		size_t m_capacity;       
 		std::string m_name;
-
+		void resize(size_t new_capacity)
+		{
+			Character** temp = new Character * [new_capacity];
+			for (size_t i = 0; i < m_size; ++i)
+			{
+				temp[i] = m_members[i];
+			}
+			delete[] m_members;
+			m_members = temp;
+			m_capacity = new_capacity;
+		}
 	public:
 		Guild();
 		Guild(const char* name);

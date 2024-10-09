@@ -9,7 +9,7 @@
 namespace seneca {
 
 	template <typename T, typename FirstAbility_t, typename SecondAbility_t>
-	class Rogue : public CharacterTpl<T> { 
+	class Rogue : public characterTpl<T> { 
 	private:
 		int m_baseDefense;
 		int m_baseAttack;
@@ -19,7 +19,7 @@ namespace seneca {
 
 	public:
 		Rogue(const char* name, int healthMax, int baseAttack, int baseDefense) :
-			CharacterTpl<T>(name, healthMax),
+			characterTpl<T>(name, healthMax),
 			m_baseAttack(baseAttack),
 			m_baseDefense(baseDefense) {}
 
@@ -57,7 +57,7 @@ namespace seneca {
 
 			m_firstAbility.transformDamageReceived(dmg);
 			m_secondAbility.transformDamageReceived(dmg);
-			CharacterTpl<T>::takeDamage(dmg);
+			characterTpl<T>::takeDamage(dmg);
 		}
 
 
