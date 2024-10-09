@@ -18,11 +18,24 @@ namespace seneca {
 
 	public:
 		Barbarian(const char* name, int healthMax, int baseAttack,
-			int baseDefense, Weapon_t primaryWeapon, Weapon_t secondaryWeapon);
+			int baseDefense, Weapon_t primaryWeapon, Weapon_t secondaryWeapon) : characterTpl<T>(name, healthMax)
+			 {
+			m_baseAttack=baseAttack;
+			m_baseDefense=baseDefense;
+			m_primaryWeapon=primaryWeapon;
+			m_secondaryWeapon=secondaryWeapon;
+		}
 
-		int getAttackAmnt() const;
+		int getAttackAmnt() const {
+			int result = m_baseAttack + static_cast<int>(m_primaryWeapon) / 2
+				+ static_cast<int>(m_secondaryWeapon) / 2;
+			return result;
+		}
 
-		int getDefenseAmnt() const;
+
+		int getDefenseAmnt() const {
+			return m_baseDefense;
+		}
 
 		Character* clone() const {
 			return new Barbarian<T, Ability_t, Weapon_t>(*this);
@@ -39,7 +52,18 @@ namespace seneca {
 
 			enemy->takeDamage(damage);
 		}
-		void takeDamage(int dmg) override;
+		void takeDamage(int dmg) override {
+			std::cout << this->getName() << " is attacked for " << dmg << " damage." << std::endl;
+			std::cout << "    Barbarian has a defense of " << m_baseDefense << ". Reducing damage received." << std::endl;
+
+			dmg -= m_baseDefense;
+			if (dmg < 0) {
+				dmg = 0;
+			}
+			m_ability.transformDamageReceived(dmg);
+
+			characterTpl<T>::takeDamage(dmg);
+		}
 
 
 	};

@@ -14,6 +14,10 @@ namespace seneca {
             delete m_members[i]; 
         }
         delete[] m_members;
+        m_size = 0;
+        m_capacity = {};
+        m_name = {};
+        m_members = {};
     }
 
     seneca::Team::Team(const Team& other) :
@@ -78,25 +82,28 @@ namespace seneca {
     }
     void Team::addMember(const Character* c)
     {
-        for (size_t i = 0; i < m_size; ++i) {
-            if (m_members[i]->getName() == c->getName()) {
-                std::cout << "Character already in team." << std::endl;
-                return;
-            }
-        }
-        if (m_size >= m_capacity) {
-            size_t newCapacity = (m_capacity == 0) ? 1 : m_capacity * 2;
-            Character** newArray = new Character * [newCapacity];
+        
             for (size_t i = 0; i < m_size; ++i) {
-                newArray[i] = m_members[i]; 
+                if (m_members[i]->getName() == c->getName()) {
+                    std::cout << "Character already in team." << std::endl;
+                    return;
+                }
+            }
+            Character** tmp = new Character * [m_size + 1];
+       
+            for (size_t i = 0; i < m_size; ++i) {
+                tmp[i] = m_members[i]; 
+                tmp[m_size] = c->clone();
             }
             delete[] m_members; 
-            m_members = newArray; 
-            m_capacity = newCapacity; 
-        }
+            m_members = tmp; 
+            m_capacity++; 
+        
 
         m_members[m_size++] = c->clone();
     }
+
+
     void Team::removeMember(const std::string& c)
     {
         for (size_t i = 0; i < m_size; ++i) {

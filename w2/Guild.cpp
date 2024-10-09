@@ -5,7 +5,7 @@ namespace seneca {
 
     seneca::Guild::Guild() :
         m_members(nullptr), m_size(0),
-        m_capacity(0), m_name("Unnamed Guild") {}
+        m_capacity(0), m_name("") {}
 
     seneca::Guild::Guild(const char* name) :
         m_members(nullptr),
@@ -30,10 +30,14 @@ namespace seneca {
     }
 
 
-    seneca::Guild::Guild(Guild&& other) noexcept
-        : m_members(other.m_members), m_size(other.m_size), m_capacity(other.m_capacity), m_name(std::move(other.m_name)) {
-        other.m_members = nullptr;
-        other.m_capacity = 0;
+   
+
+    seneca::Guild::Guild(Guild&& other) noexcept :
+        m_members(other.m_members), m_size(other.m_size), m_capacity(other.m_capacity), m_name(std::move(other.m_name))
+    {
+        other.m_members = nullptr; 
+        other.m_size = 0; 
+        other.m_capacity = 0; 
     }
 
     Guild& seneca::Guild::operator=(const Guild& other)
@@ -132,7 +136,7 @@ namespace seneca {
             return;
         }
         for (size_t i = 0; i < m_size; ++i) {
-            std::cout << "    " << (i + 1) << ": " << *m_members[i] << std::endl; // Assuming operator<< is overloaded
+            std::cout << "    " << (i + 1) << ": " << *m_members[i] << std::endl; 
         }
 
 

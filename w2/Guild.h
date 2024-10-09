@@ -31,7 +31,6 @@ namespace seneca {
 		~Guild();
 		Guild(const Guild& other);
 		Guild(Guild&& other) noexcept;
-		// Copy assignment operator
 		Guild& operator=(const Guild& other);
 		Guild& operator=(Guild&& other) noexcept;
 		

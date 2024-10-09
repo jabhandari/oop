@@ -19,12 +19,14 @@ namespace seneca {
 
 	public:
 		Rogue(const char* name, int healthMax, int baseAttack, int baseDefense) :
-			characterTpl<T>(name, healthMax),
-			m_baseAttack(baseAttack),
-			m_baseDefense(baseDefense) {}
+			
+			characterTpl<T>(name, healthMax) {
+			m_baseAttack=baseAttack;
+			m_baseDefense=baseDefense;
+		}
 
 		int getAttackAmnt() const {
-			return m_baseAttack + 2 * static_cast<double>(m_weapon);
+			return m_baseAttack + 2 * static_cast<int>(m_weapon);
 
 		}
 		int getDefenseAmnt() const {

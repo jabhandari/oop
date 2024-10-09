@@ -11,8 +11,8 @@ namespace seneca {
 	class Team {
 	private:
 		Character** m_members;
-		size_t m_size;
-		size_t m_capacity;
+		size_t m_size{};
+		size_t m_capacity{};
 		std::string m_name;
 
 	public:
