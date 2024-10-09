@@ -2,12 +2,13 @@
 #define SENECA_ROGUE_H
 
 #include "characterTpl.cpp"
+#include "character.h"
 #include <iostream>
 
 namespace seneca {
 
 	template <typename T,typename FirstAbility_t,typename SecondAbility_t>
-	class Rouge :public CharacterTpl<T> {
+	class Rogue :public characterTpl<T> {
 	private:
 		int m_baseDefense;
 		int m_baseAttack;

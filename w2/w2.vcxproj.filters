@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="tester_1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -30,10 +27,13 @@
     <ClCompile Include="archer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rouge.cpp">
+    <ClCompile Include="rogue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Team.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Guild.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,10 +56,16 @@
     <ClInclude Include="archer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rouge.h">
+    <ClInclude Include="rogue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Team.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Guild.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="characterTpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

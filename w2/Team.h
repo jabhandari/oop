@@ -18,6 +18,7 @@ namespace seneca {
 	public:
 		Team() : m_members(nullptr), m_size(0), m_capacity(0), m_name("Unnamed Team") {}
 		Team(const char* name);
+		//Destructor
 		~Team();
 		// Copy constructor
 		Team(const Team& other);

@@ -12,7 +12,7 @@ namespace seneca {
 	public:
 		characterTpl(const char* name, int healthMax) :
 			Chatacter(name), m_healthMax(healthMax), m_health(healthMax) {}
-		
+
 		void takeDamage(int dmg) override {
 			m_health -= static_cast<T>(dmg);
 			if (!isAlive()) {

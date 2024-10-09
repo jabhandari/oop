@@ -1,44 +1,40 @@
-#include "Team.h"
+#include "Guild.h"
+
 namespace seneca {
 
 
-    seneca::Team::Team(const char* name) :
-        m_members(nullptr),
-        m_size(0),
-        m_capacity(0),
-        m_name(name) {}
+    seneca::Guild::Guild() :
+        m_members(nullptr), m_size(0),
+        m_capacity(0), m_name("Unnamed Guild") {}
 
-    seneca::Team::~Team()
+    seneca::Guild::Guild(const char* name) :
+        m_members(nullptr),
+        m_size(0), m_capacity(0), m_name(name) {}
+
+    seneca::Guild::~Guild()
     {
         for (size_t i = 0; i < m_size; ++i) {
-            delete m_members[i];
+            delete m_members[i]; 
         }
-        delete[] m_members;
+        delete[] m_members;    
     }
 
-    seneca::Team::Team(const Team& other) :
-        m_name(other.m_name),
-        m_size(other.m_size),
-        m_capacity(other.m_capacity) {
+    seneca::Guild::Guild(const Guild& other)
+        : m_name(other.m_name), m_size(other.m_size), m_capacity(other.m_capacity) {
         m_members = new Character * [m_capacity];
         for (size_t i = 0; i < m_size; ++i) {
-            m_members[i] = other.m_members[i]->clone();
+            m_members[i] = other.m_members[i]->clone(); 
         }
     }
 
-    seneca::Team::Team(Team&& other) noexcept :
-        m_members(other.m_members),
-        m_size(other.m_size),
-        m_capacity(other.m_capacity),
-        m_name(std::move(other.m_name)) {
-        other.m_members = nullptr;
-        other.m_size = 0;
+    seneca::Guild::Guild(Guild&& other) noexcept
+        : m_members(other.m_members), m_size(other.m_size), m_capacity(other.m_capacity), m_name(std::move(other.m_name)) {
+        other.m_members = nullptr; 
         other.m_capacity = 0;
     }
 
-    Team& seneca::Team::operator=(const Team& other)
+    Guild& seneca::Guild::operator=(const Guild& other)
     {
-
         if (this != &other) {
             for (size_t i = 0; i < m_size; ++i) {
                 delete m_members[i];
@@ -56,7 +52,7 @@ namespace seneca {
         return *this;
     }
 
-    Team& seneca::Team::operator=(Team&& other) noexcept
+    Guild& seneca::Guild::operator=(Guild&& other) noexcept
     {
         if (this != &other) {
             for (size_t i = 0; i < m_size; ++i) {
@@ -75,11 +71,12 @@ namespace seneca {
         }
         return *this;
     }
-    void Team::addMember(const Character* c)
+
+    void Guild::addMember(Character* c)
     {
         for (size_t i = 0; i < m_size; ++i) {
             if (m_members[i]->getName() == c->getName()) {
-                std::cout << "Character already in team." << std::endl;
+                std::cout << "Character is already in the guild." << std::endl;
                 return;
             }
         }
@@ -93,40 +90,44 @@ namespace seneca {
             m_members = newArray;
             m_capacity = newCapacity;
         }
-        m_members[m_size++] = c->clone();
+        c->increaseMaxHealth(300); 
+        m_members[m_size++] = c;
     }
-    void Team::removeMember(const std::string& c)
+
+    void Guild::removeMember(const std::string& c)
     {
         for (size_t i = 0; i < m_size; ++i) {
             if (m_members[i]->getName() == c) {
-                delete m_members[i];
+                m_members[i]->decreaseMaxHealth(300); 
+                delete m_members[i]; 
                 for (size_t j = i; j < m_size - 1; ++j) {
                     m_members[j] = m_members[j + 1];
                 }
-                --m_size;
+                --m_size; 
                 return;
             }
         }
-        std::cout << "Character not found." << std::endl;
+        std::cout << "Character not found in guild." << std::endl;
     }
 
-    Character* Team::operator[](size_t idx) const
+    Character* Guild::operator[](size_t idx) const
     {
         if (idx >= m_size) {
             return nullptr;
         }
         return m_members[idx];
     }
-    void Team::showMembers() const
+
+    void Guild::showMembers() const
     {
-        std::cout << "[Team] " << m_name << std::endl;
+        std::cout << "[Guild] " << m_name << std::endl;
         if (m_size == 0) {
-            std::cout << "No team." << std::endl;
+            std::cout << "No guild." << std::endl;
             return;
         }
         for (size_t i = 0; i < m_size; ++i) {
-            std::cout << "    " << (i + 1)
-                << ": " << *m_members[i] << std::endl;
+            std::cout << "    " << (i + 1) << ": " << *m_members[i] << std::endl; // Assuming operator<< is overloaded
         }
+
+
     }
-}
