@@ -1,5 +1,5 @@
 #include "rogue.h"
-#include "characterTpl.cpp"
+#include "characterTpl.h"
 #include<iostream>
 #include "character.h"
 namespace seneca {

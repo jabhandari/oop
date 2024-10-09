@@ -1,22 +1,24 @@
 #include "archer.h"
-#include "characterTpl.cpp"
+#include "characterTpl.h"
+#include<iostream>
 
 namespace seneca {
 
+
 	template<typename Weapon_t>
-	inline int Archer<Weapon_t>::getAttackAmnt() const
+	 int Archer<Weapon_t>::getAttackAmnt() const
 	{
 		return static_cast<int>(1.3 * m_baseAttack);
 	}
 	
 	template<typename Weapon_t>
-	inline int Archer<Weapon_t>::getDefenseAmnt() const
+	 int Archer<Weapon_t>::getDefenseAmnt() const
 	{
 			return static_cast<int>(1.2 * m_baseDefense);
 	}
 	
 	template<typename Weapon_t>
-	inline Character* seneca::Archer<Weapon_t>::clone() const
+	 Character* seneca::Archer<Weapon_t>::clone() const
 	{
 		return new Archer<Weapon_t>(*this);
 	}
@@ -44,7 +46,7 @@ namespace seneca {
 			dmg = 0;
 		}
 
-		CharacterTpl<SuperHealth>::takeDamage(dmg);
+		CharacterTpl<int>::takeDamage(dmg); //<superhealth>
 	}
 
 }

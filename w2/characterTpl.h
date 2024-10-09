@@ -1,3 +1,6 @@
+#pragma once
+#ifndef SENECA_CHARACTERTPL_H
+#define SENECA_CHARACTERTPL_H
 #include<iostream>
 #include<string>
 #include "character.h"
@@ -10,40 +13,18 @@ namespace seneca {
 		T m_health;
 
 	public:
-		characterTpl(const char* name, int healthMax) :
-			Chatacter(name), m_healthMax(healthMax), m_health(healthMax) {}
+		characterTpl(int healthMax) :
+		m_healthMax(healthMax), m_health(healthMax) {}
 
-		void takeDamage(int dmg) override {
-			m_health -= static_cast<T>(dmg);
-			if (!isAlive()) {
-				std::cout << getName() << " has been defeated!" << std::endl;
-			}
-			else {
-				std::cout << getName() << " took " << dmg << " damage, " <<
-					static_cast<int>(m_health) << " health remaining." << std::endl;
-			}
-		}
+		void takeDamage(int dmg) override;
 
-		int getHealth() const override {
-			return static_cast<int>(m_health);
-		}
+		int getHealth() const override;
 
-		int getHealthMax() const override {
-			return m_healthMax;
-		}
+		int getHealthMax() const override;
 
-		void setHealth(int health) override {
-			m_health = static_cast<T>(health);
-			if (m_health > m_healthMax) {
-				m_health = static_cast<T>(m_healthMax);
-			}
-		}
+		void setHealth(int health) override;
 
-		void setHealthMax(int health) override {
-			m_healthMax = health;
-			if (m_health > m_healthMax) {
-				m_health = static_cast<T>(m_healthMax);
-			}
-		}
+		void setHealthMax(int health) override;
 	};
 }
+#endif

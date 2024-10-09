@@ -1,8 +1,8 @@
 #ifndef SENECA_BARBARIAN_H
 #define SENECA_BARBARIAN_H
 
-#include "characterTpl.cpp"
 #include<iostream>
+#include "characterTpl.h"
 #include "character.h"
 
 namespace seneca {
@@ -13,8 +13,8 @@ namespace seneca {
 		int m_baseDefense;
 		int m_baseAttack;
 		Ability_t m_ability;
-		Weapon_t primaryWeapon;
-		Weapon_t secondaryWeapon;
+		Weapon_t m_primaryWeapon;
+		Weapon_t m_secondaryWeapon;
 
 	public:
 		Barbarian(const char* name, int healthMax, int baseAttack,
@@ -35,10 +35,11 @@ namespace seneca {
 			m_ability.useAbility(this);
 			int damage = getAttackAmnt();
 			m_ability.transformDamage(damage);
-			std::cout << "Barbarian deals " << damage <<
-				"melee damage!" << std::endl;
+			std::cout << "Barbarian deals " << damage << " melee damage!" << std::endl;
+
+			enemy->takeDamage(damage);
 		}
-		void takeDamage(int dmg);
+		void takeDamage(int dmg) override;
 
 
 	};

@@ -10,10 +10,10 @@ namespace seneca {
 		T m_health;
 
 	public:
-		characterTpl(const char* name, int healthMax) :
-			Chatacter(name), m_healthMax(healthMax), m_health(healthMax) {}
-		
-		void takeDamage(int dmg) override {
+		characterTpl(T m_health, int healthMax) :
+			, m_healthMax(healthMax), m_health(healthMax) {}
+		//Character(name)
+		void takeDamage(int dmg) override { ////
 			m_health -= static_cast<T>(dmg);
 			if (!isAlive()) {
 				std::cout << getName() << " has been defeated!" << std::endl;
@@ -34,16 +34,12 @@ namespace seneca {
 
 		void setHealth(int health) override {
 			m_health = static_cast<T>(health);
-			if (m_health > m_healthMax) {
-				m_health = static_cast<T>(m_healthMax);
-			}
+			
 		}
 
 		void setHealthMax(int health) override {
 			m_healthMax = health;
-			if (m_health > m_healthMax) {
-				m_health = static_cast<T>(m_healthMax);
-			}
+			m_health = health;
 		}
 	};
 }

@@ -1,11 +1,12 @@
 #ifndef SENECA_ARCHER_H
 #define SENECA_ARCHER_H
-#include"characterTpl.cpp"
 #include<iostream>
+#include"characterTpl.h"
+#include "character.h"
 namespace seneca {
 
 	template<typename Weapon_t>
-	class Archer :public CharacterTpl<seneca::SuperHealth> {
+	class Archer :public CharacterTpl<int> {//<seneca::SuperHealth>
 	private:
 		int	m_baseDefense;
 		int m_baseAttack;
@@ -20,13 +21,13 @@ namespace seneca {
 		int getAttackAmnt() const;
 
 		int getDefenseAmnt() const;
-		Character* clone() const;
+		Character* clone() const override;
 			
 
-		void attack(Character* enemy);
+		void attack(Character* enemy) override;
 			
 
-		void takeDamage(int dmg);
+		void takeDamage(int dmg) override;
 
 		
 	};

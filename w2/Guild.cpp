@@ -1,4 +1,4 @@
-#include "Guild.h"
+#include "guild.h"
 
 namespace seneca {
 
@@ -14,22 +14,25 @@ namespace seneca {
     seneca::Guild::~Guild()
     {
         for (size_t i = 0; i < m_size; ++i) {
-            delete m_members[i]; 
+            delete m_members[i];
         }
-        delete[] m_members;    
+        delete[] m_members;
     }
 
-    seneca::Guild::Guild(const Guild& other)
-        : m_name(other.m_name), m_size(other.m_size), m_capacity(other.m_capacity) {
+    seneca::Guild::Guild(const Guild& other) :
+        m_size(other.m_size),
+        m_capacity(other.m_capacity),
+        m_name(other.m_name) { // Change the order here
         m_members = new Character * [m_capacity];
         for (size_t i = 0; i < m_size; ++i) {
-            m_members[i] = other.m_members[i]->clone(); 
+            m_members[i] = other.m_members[i]->clone();
         }
     }
+
 
     seneca::Guild::Guild(Guild&& other) noexcept
         : m_members(other.m_members), m_size(other.m_size), m_capacity(other.m_capacity), m_name(std::move(other.m_name)) {
-        other.m_members = nullptr; 
+        other.m_members = nullptr;
         other.m_capacity = 0;
     }
 
@@ -90,7 +93,7 @@ namespace seneca {
             m_members = newArray;
             m_capacity = newCapacity;
         }
-        c->increaseMaxHealth(300); 
+        c->increaseMaxHealth(300);
         m_members[m_size++] = c;
     }
 
@@ -98,12 +101,12 @@ namespace seneca {
     {
         for (size_t i = 0; i < m_size; ++i) {
             if (m_members[i]->getName() == c) {
-                m_members[i]->decreaseMaxHealth(300); 
-                delete m_members[i]; 
+                m_members[i]->decreaseMaxHealth(300);
+                delete m_members[i];
                 for (size_t j = i; j < m_size - 1; ++j) {
                     m_members[j] = m_members[j + 1];
                 }
-                --m_size; 
+                --m_size;
                 return;
             }
         }
@@ -131,3 +134,4 @@ namespace seneca {
 
 
     }
+}

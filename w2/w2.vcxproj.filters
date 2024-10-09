@@ -30,10 +30,10 @@
     <ClCompile Include="rogue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Team.cpp">
+    <ClCompile Include="team.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Guild.cpp">
+    <ClCompile Include="guild.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +50,7 @@
     <ClInclude Include="weapons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Barbarian.h">
+    <ClInclude Include="barbarian.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="archer.h">
@@ -59,10 +59,10 @@
     <ClInclude Include="rogue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Team.h">
+    <ClInclude Include="team.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Guild.h">
+    <ClInclude Include="guild.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="characterTpl.h">

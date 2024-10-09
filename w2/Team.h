@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <cstring>
-#include "character.h" // Ensure Character class is defined
+#include "character.h" 
 #include <string>
 
 namespace seneca {
