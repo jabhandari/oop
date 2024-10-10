@@ -28,10 +28,6 @@ namespace seneca {
             m_members[i] = other.m_members[i]->clone();
         }
     }
-
-
-   
-
     seneca::Guild::Guild(Guild&& other) noexcept :
         m_members(other.m_members), m_size(other.m_size), m_capacity(other.m_capacity), m_name(std::move(other.m_name))
     {
@@ -85,7 +81,6 @@ namespace seneca {
         {
             if (m_members[i] == c)
             {
-                std::cout << "Character is already in the guild.\n";
                 return;
             }
         }
@@ -98,6 +93,7 @@ namespace seneca {
         int newMaxHealth = c->getHealthMax() + 300;
         c->setHealthMax(newMaxHealth);
         m_members[m_size++] = c;
+
     }
 
     void Guild::removeMember(const std::string& c)
@@ -117,7 +113,7 @@ namespace seneca {
                 return;
             }
         }
-        std::cout << "Character not found in the guild.\n";
+     
     }
 
     Character* Guild::operator[](size_t idx) const

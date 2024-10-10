@@ -16,7 +16,8 @@ namespace seneca {
 		std::string m_name;
 
 	public:
-		Team() : m_members(nullptr), m_size(0), m_capacity(0), m_name("Unnamed Team") {}
+		void resize(size_t newCapacity);
+		Team() : m_members(nullptr), m_size(0), m_capacity(0), m_name("") {}
 		Team(const char* name);
 		//Destructor
 		~Team();

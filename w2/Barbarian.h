@@ -27,8 +27,8 @@ namespace seneca {
 		}
 
 		int getAttackAmnt() const {
-			int result = m_baseAttack + static_cast<int>(m_primaryWeapon) / 2
-				+ static_cast<int>(m_secondaryWeapon) / 2;
+			int result = m_baseAttack + static_cast<double > (m_primaryWeapon) / 2
+				+ static_cast<double>(m_secondaryWeapon) / 2;
 			return result;
 		}
 

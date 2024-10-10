@@ -5,6 +5,7 @@
 #include "character.h"
 #include "weapons.h"
 #include <iostream>
+#include <cmath>
 
 namespace seneca {
 
@@ -26,7 +27,9 @@ namespace seneca {
 		}
 
 		int getAttackAmnt() const {
-			return m_baseAttack + 2 * static_cast<int>(m_weapon);
+			
+			int weaponDamage = static_cast<int>(std::floor(static_cast<double>(m_weapon)));
+			return m_baseAttack + 2 * weaponDamage + 1;
 
 		}
 		int getDefenseAmnt() const {
@@ -61,13 +64,7 @@ namespace seneca {
 			m_secondAbility.transformDamageReceived(dmg);
 			characterTpl<T>::takeDamage(dmg);
 		}
-
-
-
 	};
-
-
-	
 
 }
 
