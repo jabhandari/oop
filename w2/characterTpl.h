@@ -26,10 +26,10 @@ namespace seneca {
             //if (m_health< 0) 
             if (getHealth() <= 0) {
                 m_health = 0; 
-                std::cout << getName() << " has been defeated!" << std::endl;
+                std::cout << "    "<< getName() << " has been defeated!" << std::endl;
             }
             else {
-                std::cout << getName() << " took " << dmg
+                std::cout <<"    "<< getName() << " took " << dmg
                     << " damage, " << getHealth()
                     << " health remaining." << std::endl;
             }
@@ -53,6 +53,7 @@ namespace seneca {
         void setHealthMax(int health) override {
             m_healthMax = health;
            m_health=health; 
+            
         }
     };
 

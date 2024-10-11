@@ -2,22 +2,24 @@
 namespace seneca {
 
 
-    seneca::Team::Team(const char* name) :
-        m_members(nullptr),
-        m_size(0),
-        m_capacity(0),
-        m_name(name) {}
+    seneca::Team::Team(const char* name) 
+    {
+        m_members = nullptr;
+        m_size = 0;
+        m_capacity = 0;
+        m_name=name; }
 
     seneca::Team::~Team()
     {
         for (size_t i = 0; i < m_size; ++i) {
-            delete m_members[i]; 
+            delete m_members[i];
+            m_members[i] = nullptr; ///
         }
         delete[] m_members;
-        m_members = {};
+        m_members = nullptr;
         m_size = 0;
-        m_capacity = {};
-        m_name = {};
+        m_capacity = 0;
+        m_name = "";
     }
 
     seneca::Team::Team(const Team& other) {
@@ -45,9 +47,10 @@ namespace seneca {
         if (this != &other) {
             for (size_t i = 0; i < m_size; ++i) {
                 delete m_members[i];
+                m_members[i] = nullptr;
             }
             delete[] m_members;
-
+            m_members = nullptr;
             m_name = other.m_name;
             m_size = other.m_size;
             m_capacity = other.m_capacity;
@@ -64,8 +67,10 @@ namespace seneca {
         if (this != &other) {
             for (size_t i = 0; i < m_size; ++i) {
                 delete m_members[i];
+                m_members[i] = nullptr;
             }
             delete[] m_members;
+            m_members = nullptr;
 
             m_name = std::move(other.m_name);
             m_members = other.m_members;
@@ -84,6 +89,7 @@ namespace seneca {
             temp[i] = m_members[i];
         }
         delete[] m_members;
+        m_members = nullptr;
         m_members = temp;
         m_capacity = newCapacity;
     }
@@ -112,6 +118,7 @@ namespace seneca {
         for (size_t i = 0; i < m_size; ++i) {
             if (m_members[i]->getName() == c) {
                 delete m_members[i];
+                m_members[i] = nullptr;
                 for (size_t j = i; j < m_size - 1; ++j) {
                     m_members[j] = m_members[j + 1];
                 }
@@ -128,7 +135,7 @@ namespace seneca {
     void Team::showMembers() const
     {
        
-        if (m_members == 0) {
+        if (m_size == 0) {
             std::cout << "No team." << std::endl;
             return;
         }
