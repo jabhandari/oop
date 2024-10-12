@@ -40,7 +40,8 @@ namespace seneca {
 		}
 
 		Character* clone() const {
-			return new Barbarian<T, Ability_t, Weapon_t>(*this);
+			//return new Barbarian<T, Ability_t, Weapon_t>(*this);
+			return new Barbarian(*this);
 		}
 
 		void attack(Character* enemy) override { //over

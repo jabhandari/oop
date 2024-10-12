@@ -16,7 +16,8 @@ namespace seneca {
 		std::string m_name;
 		
 	public:
-		void resize(size_t newCapacity);
+		//void resize(size_t newCapacity);
+		void resize();
 		Guild();
 		Guild(const char* name);
 		~Guild();

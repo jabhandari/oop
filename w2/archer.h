@@ -30,7 +30,8 @@ class Archer : public characterTpl<seneca::SuperHealth> {
 			return static_cast<int>(1.2 * m_baseDefense);
 		}
 		Character* clone() const override {
-			return new Archer<Weapon_t>(*this);
+			//return new Archer<Weapon_t>(*this);
+			return new Archer(*this);
 		}
 			
 

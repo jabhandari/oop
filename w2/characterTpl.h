@@ -40,10 +40,14 @@ namespace seneca {
         }
 
         int getHealthMax() const override {
-            return m_healthMax;
+            return (m_healthMax);
         }
 
         void setHealth(int health) override {
+           /* m_health = health;
+            if (m_health < 0) {
+                m_health = 0;
+            }*/
             m_health = static_cast<int>(health);
             if (m_health < 0) {
                 m_health = static_cast<int>(0);
@@ -51,8 +55,10 @@ namespace seneca {
         }
 
         void setHealthMax(int health) override {
+            /*m_healthMax = health;
+            setHealth(m_healthMax);*/
             m_healthMax = health;
-           m_health=health; 
+            m_health = health;
             
         }
     };
