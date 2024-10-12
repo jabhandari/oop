@@ -1,41 +1,47 @@
 #include "team.h"
 namespace seneca {
 
-
+    seneca::Team::Team() {
+            m_members = nullptr;
+            m_size = 0;
+            m_capacity = 0;
+            m_name = ("");
+        }
+    
     seneca::Team::Team(const char* name) 
     {
         m_members = nullptr;
         m_size = 0;
         m_capacity = 0;
-        m_name=name; }
+        m_name=name; 
+    }
 
     seneca::Team::~Team()
     {
-        for (size_t i = 0; i < m_size; ++i) {
-            delete m_members[i];
-            m_members[i] = nullptr; ///
+       
+        if (m_members) {
+            for (size_t i = 0; i < m_size; ++i) {
+                delete m_members[i];
+            }
+            delete[] m_members;
         }
-        delete[] m_members;
-        m_members = nullptr;
-        m_size = 0;
-        m_capacity = 0;
-        m_name = "";
     }
 
     seneca::Team::Team(const Team& other) {
-        m_name = other.m_name;
         m_size=other.m_size;
         m_capacity = other.m_capacity;
+        m_name = other.m_name;
         m_members = new Character * [m_capacity];
         for (size_t i = 0; i < m_size; i++) {
             m_members[i] = other.m_members[i]->clone();
         }
         }
     seneca::Team::Team(Team&& other) noexcept   {
-        m_name = std::move(other.m_name);
         m_members=other.m_members;
         m_size=other.m_size;
         m_capacity = other.m_capacity;
+        m_name = (std::move(other.m_name));
+
         other.m_members = nullptr;
         other.m_size = 0;
         other.m_capacity = 0;
@@ -47,10 +53,9 @@ namespace seneca {
         if (this != &other) {
             for (size_t i = 0; i < m_size; ++i) {
                 delete m_members[i];
-                m_members[i] = nullptr;
             }
             delete[] m_members;
-            m_members = nullptr;
+
             m_name = other.m_name;
             m_size = other.m_size;
             m_capacity = other.m_capacity;
@@ -67,15 +72,13 @@ namespace seneca {
         if (this != &other) {
             for (size_t i = 0; i < m_size; ++i) {
                 delete m_members[i];
-                m_members[i] = nullptr;
             }
             delete[] m_members;
-            m_members = nullptr;
 
-            m_name = std::move(other.m_name);
             m_members = other.m_members;
             m_size = other.m_size;
             m_capacity = other.m_capacity;
+            m_name = std::move(other.m_name);
 
             other.m_members = nullptr;
             other.m_size = 0;
@@ -84,12 +87,18 @@ namespace seneca {
         return *this;
     }
     void Team::resize(size_t newCapacity) {
+        if (newCapacity < m_size) {
+            m_size = newCapacity;
+        }
+
         Character** temp = new Character * [newCapacity];
+
         for (size_t i = 0; i < m_size; ++i) {
             temp[i] = m_members[i];
         }
+
         delete[] m_members;
-        m_members = nullptr;
+
         m_members = temp;
         m_capacity = newCapacity;
     }
@@ -122,7 +131,8 @@ namespace seneca {
                 for (size_t j = i; j < m_size - 1; ++j) {
                     m_members[j] = m_members[j + 1];
                 }
-                --m_size;
+              //  --m_size;
+                m_members[--m_size] = nullptr;
                 return;
             }
         }
@@ -130,7 +140,7 @@ namespace seneca {
 
     Character* Team::operator[](size_t idx) const
     {
-        return idx < m_size ? m_members[idx] : nullptr;
+        return idx <= m_size ? m_members[idx] : nullptr;
     }
     void Team::showMembers() const
     {

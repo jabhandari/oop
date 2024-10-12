@@ -17,7 +17,7 @@ namespace seneca {
 
 	public:
 		void resize(size_t newCapacity);
-		Team() : m_members(nullptr), m_size(0), m_capacity(0), m_name("") {}
+		Team();
 		Team(const char* name);
 		//Destructor
 		~Team();
