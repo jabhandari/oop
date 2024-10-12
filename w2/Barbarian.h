@@ -26,16 +26,7 @@ namespace seneca {
 			m_secondaryWeapon=secondaryWeapon;
 		}
 
-		/// 
-		Barbarian(const Barbarian& other) : characterTpl<T>(other) {
-			m_baseAttack = other.m_baseAttack;
-			m_baseDefense = other.m_baseDefense;
-			m_primaryWeapon = other.m_primaryWeapon;  // Ensure Weapon_t supports deep copy if needed
-			m_secondaryWeapon = other.m_secondaryWeapon;
-			m_ability = other.m_ability;              // Ensure Ability_t supports deep copy if needed
-		}
-
-		///
+		
 
 		int getAttackAmnt() const {
 			int result = m_baseAttack + static_cast<double > (m_primaryWeapon) / 2

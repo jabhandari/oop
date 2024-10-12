@@ -24,7 +24,7 @@ namespace seneca {
         void takeDamage(int dmg) override {
             m_health -= dmg;
             //if (m_health< 0) 
-            if (getHealth() <= 0) {
+            if (m_health< 0) {
                 m_health = 0; 
                 std::cout << "    "<< getName() << " has been defeated!" << std::endl;
             }
