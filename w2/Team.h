@@ -30,7 +30,7 @@ namespace seneca {
 		// Move assignment operator
 		Team& operator=(Team&& other) noexcept;
 		void addMember(const Character* c);
-		void removeMember(const std::string& c);
+		void removeMember(const std::string& name);
 		Character* operator[](size_t idx) const;
 		void showMembers() const;
 	};

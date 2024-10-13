@@ -11,8 +11,8 @@ namespace seneca {
     class characterTpl : public Character {
 
     private:
-        int m_healthMax;
-        T m_health; 
+        int m_healthMax{};
+        T m_health{};
 
     public:
         characterTpl(const char* name, int healthMax)
@@ -24,12 +24,12 @@ namespace seneca {
         void takeDamage(int dmg) override {
             m_health -= dmg;
             //if (m_health< 0) 
-            if (m_health< 0) {
-                m_health = 0; 
-                std::cout << "    "<< getName() << " has been defeated!" << std::endl;
+            if (m_health <= 0) {
+                m_health = 0;
+                std::cout << "    " << getName() << " has been defeated!" << std::endl;
             }
             else {
-                std::cout <<"    "<< getName() << " took " << dmg
+                std::cout << "    " << getName() << " took " << dmg
                     << " damage, " << getHealth()
                     << " health remaining." << std::endl;
             }
@@ -40,26 +40,20 @@ namespace seneca {
         }
 
         int getHealthMax() const override {
-            return (m_healthMax);
+            return m_healthMax;
         }
 
         void setHealth(int health) override {
-           /* m_health = health;
-            if (m_health < 0) {
-                m_health = 0;
-            }*/
-            m_health = static_cast<int>(health);
-            if (m_health < 0) {
-                m_health = static_cast<int>(0);
-            }
+           
+            m_health = health;
+            
         }
 
         void setHealthMax(int health) override {
-            /*m_healthMax = health;
-            setHealth(m_healthMax);*/
+           
             m_healthMax = health;
-            m_health = health;
-            
+            m_health = m_healthMax;
+
         }
     };
 

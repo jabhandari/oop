@@ -6,8 +6,8 @@
 #include "character.h"
 
 namespace seneca {
-	
-	template<typename T,typename Ability_t,typename Weapon_t>
+
+	template<typename T, typename Ability_t, typename Weapon_t>
 	class Barbarian : public characterTpl<T> {
 	private:
 		int m_baseDefense;
@@ -19,17 +19,17 @@ namespace seneca {
 	public:
 		Barbarian(const char* name, int healthMax, int baseAttack,
 			int baseDefense, Weapon_t primaryWeapon, Weapon_t secondaryWeapon) : characterTpl<T>(name, healthMax)
-			 {
-			m_baseAttack=baseAttack;
-			m_baseDefense=baseDefense;
-			m_primaryWeapon=primaryWeapon;
-			m_secondaryWeapon=secondaryWeapon;
+		{
+			m_baseAttack = baseAttack;
+			m_baseDefense = baseDefense;
+			m_primaryWeapon = primaryWeapon;
+			m_secondaryWeapon = secondaryWeapon;
 		}
 
-		
+
 
 		int getAttackAmnt() const {
-			int result = m_baseAttack + static_cast<double > (m_primaryWeapon) / 2
+			int result = m_baseAttack + static_cast<double> (m_primaryWeapon) / 2
 				+ static_cast<double>(m_secondaryWeapon) / 2;
 			return result;
 		}
@@ -70,7 +70,7 @@ namespace seneca {
 
 
 	};
-	
+
 }
 
 #endif // !SENECA_BARBARIAN_H

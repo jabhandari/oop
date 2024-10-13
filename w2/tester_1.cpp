@@ -132,7 +132,7 @@ int main(int argc, char** argv)
 		std::cout << "T3: One Guild Member Leaves Guild\n";
 		std::cout << "==========:==========:==========:==========:==========\n";
 		guild_1.removeMember("Lethal Bunny"); // remove it from guild
-		guild_1.removeMember("Mister Nobody"); // noop; not in the guild
+		guild_1.removeMember("Mister Nobody"); // noop; notthi in the guild
 		team_1.showMembers(); // Lethal Bunny should have original health
 		guild_1.showMembers();
 		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";

@@ -94,7 +94,6 @@ namespace seneca {
     }
     void Guild::resize()
     {
-
         size_t newCapacity = (m_capacity == 0) ? 1 : m_capacity * 2;
         Character** newMembers = new Character * [newCapacity];
 
@@ -110,31 +109,25 @@ namespace seneca {
 
 
     void Guild::addMember(Character* c) {
-        if (!c) return;
+         if (!c) return;
+         for (size_t i = 0; i < m_size; ++i) {
+             if (m_members[i]->getName() == c->getName())
+             {
+                 return;
+             }
+         }
+         if (m_size >= m_capacity) {
+             resize();
+         }
+         c->setHealthMax(c->getHealthMax() + 300);
+         m_members[m_size++] = c->clone();
+         
+    }   
+   
+   
+    void Guild::removeMember(const std::string& name) {
         for (size_t i = 0; i < m_size; ++i) {
-            if (m_members[i]->getName() == c->getName())
-                return;
-        }
-        if (m_size >= m_capacity) {
-            resize();
-        }
-        c->setHealthMax(c->getHealthMax() + 300);
-        m_members[m_size++] = c->clone();  ///
-      /*  if (!c) return;
-        for (size_t i = 0; i < m_size; ++i) {
-            if (m_members[i]->getName() == c->getName())
-                return;
-        }
-        if (m_size >= m_capacity) {
-            resize();
-        }
-        c->setHealthMax(c->getHealthMax() + 300);
-        m_members[m_size++] = c->clone();*/
-    }
-
-    void Guild::removeMember(const std::string& c) {
-        for (size_t i = 0; i < m_size; ++i) {
-            if (m_members[i]->getName() == c) {
+            if (m_members[i]->getName() == name) {
                 m_members[i]->setHealthMax(m_members[i]->getHealthMax() - 300);
                 delete m_members[i];
                 for (size_t j = i; j < m_size - 1; ++j) {
