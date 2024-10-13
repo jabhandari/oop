@@ -1,163 +1,141 @@
 #include "guild.h"
 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 namespace seneca {
+    Guild::Guild()
+        : m_size(0), m_capacity(2), m_members(new Character * [m_capacity]),
+            m_name("") {}
 
+    Guild::Guild(const char* name)
+        : m_size(0), m_capacity(2), m_members(new Character* [m_capacity]),
+        m_name(name) {}
 
-    seneca::Guild::Guild() {
-        m_members = nullptr;
-        m_size = 0;
-        m_capacity = 0;
-        m_name = ("");
-
-    }
-
-    seneca::Guild::Guild(const char* name) {
-        m_members = nullptr;
-        m_size = 0;
-        m_capacity = 0;
-        m_name = name;
-    }
-
-    seneca::Guild::~Guild()
-    {
-
-        if (m_members) {
-            for (size_t i = 0; i < m_size; ++i) {
-                delete m_members[i];
-            }
-            delete[] m_members;
-        }
-    }
-    seneca::Guild::Guild(const Guild& other) {
+    Guild::Guild(const Guild& other) {
         m_size = other.m_size;
         m_capacity = other.m_capacity;
-        m_name = other.m_name;
-
         m_members = new Character * [m_capacity];
         for (size_t i = 0; i < m_size; ++i) {
-            m_members[i] = other.m_members[i]->clone();
+            m_members[i] = other.m_members[i];
         }
-
-    }
-    seneca::Guild::Guild(Guild&& other) noexcept {
-        m_members = other.m_members;
-        m_size = other.m_size;
-        m_capacity = other.m_capacity;
-        m_name = std::move(other.m_name);
-
-        other.m_members = nullptr;
-        other.m_size = 0;
-        other.m_capacity = 0;
+        m_name = other.m_name;
     }
 
-    Guild& seneca::Guild::operator=(const Guild& other)
-    {
+    Guild& Guild::operator=(const Guild& other) {
         if (this != &other) {
-            for (size_t i = 0; i < m_size; ++i) {
-                delete m_members[i];
-            }
             delete[] m_members;
 
-            m_name = other.m_name;
             m_size = other.m_size;
             m_capacity = other.m_capacity;
-
             m_members = new Character * [m_capacity];
-
             for (size_t i = 0; i < m_size; ++i) {
-                m_members[i] = other.m_members[i]->clone();
+                m_members[i] = other.m_members[i];
             }
+            m_name = other.m_name;
         }
+
         return *this;
     }
-
-
-    Guild& seneca::Guild::operator=(Guild&& other) noexcept
+    
+    Guild::Guild(Guild&& other) noexcept
     {
-        if (this != &other) {
-
-            for (size_t i = 0; i < m_size; ++i) {
-                delete m_members[i];
-            }
-            delete[] m_members;
-
-            m_members = other.m_members;
+        {
             m_size = other.m_size;
             m_capacity = other.m_capacity;
-            m_name = std::move(other.m_name);
+            m_members = other.m_members;
+            m_name = other.m_name;
 
-            other.m_members = nullptr;
             other.m_size = 0;
             other.m_capacity = 0;
+            other.m_members = nullptr;
+            other.m_name = "";
+        }
+    }
+    Guild& Guild::operator=(Guild&& other) noexcept
+    {
+        if (this != &other) {
+            delete[] m_members;
+
+            m_size = other.m_size;
+            m_capacity = other.m_capacity;
+            m_members = other.m_members;
+            m_name = other.m_name;
+
+            other.m_size = 0;
+            other.m_capacity = 0;
+            other.m_members = nullptr;
+            other.m_name = "";
         }
         return *this;
     }
-    void Guild::resize()
+    Guild::~Guild()
     {
-        size_t newCapacity = (m_capacity == 0) ? 1 : m_capacity * 2;
-        Character** newMembers = new Character * [newCapacity];
-
-        for (size_t i = 0; i < m_size; ++i)
-        {
-            newMembers[i] = m_members[i];
-        }
-
+        
         delete[] m_members;
-        m_members = newMembers;
-        m_capacity = newCapacity;
     }
-
 
     void Guild::addMember(Character* c) {
-         if (!c) return;
-         for (size_t i = 0; i < m_size; ++i) {
-             if (m_members[i]->getName() == c->getName())
-             {
-                 return;
-             }
-         }
-         if (m_size >= m_capacity) {
-             resize();
-         }
-         c->setHealthMax(c->getHealthMax() + 300);
-         m_members[m_size++] = c->clone();
-         
-    }   
-   
-   
-    void Guild::removeMember(const std::string& name) {
         for (size_t i = 0; i < m_size; ++i) {
-            if (m_members[i]->getName() == name) {
-                m_members[i]->setHealthMax(m_members[i]->getHealthMax() - 300);
-                delete m_members[i];
-                for (size_t j = i; j < m_size - 1; ++j) {
-                    m_members[j] = m_members[j + 1];
-                }
-                --m_size;
-                return;
+            if (m_members[i]->getName() == c->getName()) {
+                return; 
             }
         }
+        if (m_size == m_capacity) {
+            m_capacity *= 2;
+            Character** temp = new Character * [m_capacity];
+            for (size_t i = 0; i < m_size; ++i) {
+                temp[i] = m_members[i];
+            }
+            delete[] m_members;
+            m_members = temp;
+        }
+        c->setHealthMax(c->getHealthMax() + 300);
+        c->setHealth(c->getHealthMax());
+        m_members[m_size++] = c;
     }
 
-    Character* Guild::operator[](size_t idx) const
-    {
+  
+    void Guild::removeMember(const std::string& c) {
+        int index = -1;
+        for (size_t i = 0; i < m_size; ++i) {
+            if (m_members[i]->getName() == c) {
+                index = i;
+                break; 
+            }
+        }
+        if (index == -1) {
+            return;
+        }
+        m_members[index]->setHealthMax(m_members[index]->getHealthMax() - 300);
+        m_members[index]->setHealth(m_members[index]->getHealthMax());
+        for (size_t i = index; i < m_size - 1; ++i) {
+            m_members[i] = m_members[i + 1];
+        }
+        m_size--;
+    }
+
+
+    Character* Guild::operator[](size_t idx) const {
         if (idx >= m_size) {
             return nullptr;
         }
+
         return m_members[idx];
     }
 
-    void Guild::showMembers() const
-    {
-        if (m_members == nullptr) {
-            std::cout << "No guild." << std::endl;
+    void Guild::showMembers() const {
+        if (m_capacity == 0) {
+            cout << "No guild." << m_name << "\n";
             return;
         }
-        std::cout << "[Guild] " << m_name << std::endl;
+
+        cout << "[Guild] " << m_name << "\n";
         for (size_t i = 0; i < m_size; ++i) {
-            std::cout << "    " << (i + 1) << ": " << *m_members[i] << std::endl;
+            cout << "    " << i + 1 << ": " << *m_members[i] << "\n";
         }
-
-
     }
-}
+
+} // namespace seneca

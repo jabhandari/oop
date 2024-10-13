@@ -26,7 +26,15 @@ namespace seneca {
 			m_secondaryWeapon = secondaryWeapon;
 		}
 
-
+		Barbarian(const Barbarian& other) :
+			characterTpl<T>(other) {
+			m_baseAttack = other.m_baseAttack;
+			m_baseDefense = other.m_baseDefense;
+			m_primaryWeapon =other.m_primaryWeapon;
+			m_secondaryWeapon = other.m_secondaryWeapon;
+			m_ability = other.m_ability;
+		}
+		
 
 		int getAttackAmnt() const {
 			int result = m_baseAttack + static_cast<double> (m_primaryWeapon) / 2
@@ -40,11 +48,10 @@ namespace seneca {
 		}
 
 		Character* clone() const {
-			//return new Barbarian<T, Ability_t, Weapon_t>(*this);
 			return new Barbarian(*this);
 		}
 
-		void attack(Character* enemy) override { //over
+		void attack(Character* enemy) override { 
 			std::cout << this->getName() << " is attacking "
 				<< enemy->getName() << "." << std::endl;
 
@@ -54,6 +61,7 @@ namespace seneca {
 			std::cout << "    Barbarian deals " << damage << " melee damage!" << std::endl;
 
 			enemy->takeDamage(damage);
+			
 		}
 		void takeDamage(int dmg) override {
 			std::cout << this->getName() << " is attacked for " << dmg << " damage." << std::endl;

@@ -1,37 +1,41 @@
 #ifndef SENECA_GUILD_H
 #define SENECA_GUILD_H
 
-#include <iostream>
-#include <cstring>
+#include "character.h"
 #include <string>
-#include "character.h"  
 
 namespace seneca {
 
-	class Guild {
-	private:
-		Character** m_members;
-		size_t m_size;
-		size_t m_capacity;
-		std::string m_name;
-
-	public:
-		//void resize(size_t newCapacity);
-		void resize();
-		Guild();
-		Guild(const char* name);
-		~Guild();
-		Guild(const Guild& other);
-		Guild(Guild&& other) noexcept;
-		Guild& operator=(const Guild& other);
-		Guild& operator=(Guild&& other) noexcept;
+    class Guild {
+        size_t m_size;
+        size_t m_capacity;
+        Character** m_members;
+        std::string m_name;
 
 
-		void addMember(Character* c);
-		void removeMember(const std::string& name);
-		Character* operator[](size_t idx) const;
-		void showMembers() const;
+    public:
+        Guild();
 
-	};
-}
-#endif // !SENECA_GUILD_H
+        Guild(const char* name);
+
+        Guild(const Guild& other);
+
+        Guild& operator=(const Guild& other);
+
+        Guild(Guild&& other) noexcept;
+
+        Guild& operator=(Guild&& other) noexcept;
+
+        ~Guild();
+
+        void addMember(Character* c);
+
+        void removeMember(const std::string& c);
+
+        Character* operator[](size_t idx) const;
+
+        void showMembers() const;
+    };
+} // namespace seneca
+
+#endif

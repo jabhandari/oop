@@ -2,7 +2,7 @@
 namespace seneca {
 
     seneca::Team::Team() {
-        m_name = ""; ///
+        m_name = ""; 
         m_members = nullptr;
         m_size = 0;
         m_capacity = 0;
@@ -10,7 +10,7 @@ namespace seneca {
 
     seneca::Team::Team(const char* name)
     {
-        m_name = name;/// 
+        m_name = name;
         m_members = nullptr;
         m_size = 0;
         m_capacity = 0;
@@ -140,17 +140,6 @@ namespace seneca {
                 --m_size;
             }
         }
-
-       /* for (size_t i = 0; i < m_size; ++i) {
-            if (m_members[i]->getName() == c) {
-                delete m_members[i];
-                for (size_t j = i; j < m_size - 1; ++j) {
-                    m_members[j] = m_members[j + 1];
-                }
-                --m_size;
-                return;
-            }
-        }*/
     }
 
     Character* Team::operator[](size_t idx) const

@@ -8,7 +8,6 @@ namespace seneca {
 
 	template<typename Weapon_t>
 	class Archer : public characterTpl<seneca::SuperHealth> {
-		//<seneca::SuperHealth>
 	private:
 		int	m_baseDefense;
 		int m_baseAttack;
@@ -20,8 +19,15 @@ namespace seneca {
 			m_baseDefense = defense;
 			m_weapon = weapon;
 		}
+		
+		Archer(const Archer& other) : 
+			characterTpl(other) {
+			m_baseAttack = other.m_baseAttack;
+			m_baseDefense = other.m_baseDefense;
+			m_weapon = other.m_weapon;
+		}
 
-
+		
 		int getAttackAmnt() const {
 			return static_cast<int>(1.3 * m_baseAttack);
 		}
@@ -30,7 +36,6 @@ namespace seneca {
 			return static_cast<int>(1.2 * m_baseDefense);
 		}
 		Character* clone() const override {
-			//return new Archer<Weapon_t>(*this);
 			return new Archer(*this);
 		}
 
@@ -42,6 +47,7 @@ namespace seneca {
 			std::cout << "    Archer deals " << damage
 				<< " ranged damage!" << std::endl;
 			enemy->takeDamage(damage);
+			
 		}
 
 
@@ -55,7 +61,7 @@ namespace seneca {
 				dmg = 0;
 			}
 
-			characterTpl::takeDamage(dmg); //<superhealth>
+			characterTpl::takeDamage(dmg);
 		}
 
 

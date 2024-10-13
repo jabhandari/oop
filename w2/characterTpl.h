@@ -20,10 +20,13 @@ namespace seneca {
             m_healthMax = healthMax;
             m_health = m_healthMax;
         }
+        characterTpl(const characterTpl& other)
+            : Character(other.getName().c_str()), m_healthMax(other.m_healthMax) {
+            m_health = (int)other.m_healthMax;
+        }
 
         void takeDamage(int dmg) override {
             m_health -= dmg;
-            //if (m_health< 0) 
             if (m_health <= 0) {
                 m_health = 0;
                 std::cout << "    " << getName() << " has been defeated!" << std::endl;

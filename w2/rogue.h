@@ -36,7 +36,6 @@ namespace seneca {
 			return m_baseDefense;
 		}
 		Character* clone() const {
-			//return new Rogue<T, FirstAbility_t, SecondAbility_t>(*this);
 			return new Rogue(*this);
 		}
 		void attack(Character* enemy) {

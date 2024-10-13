@@ -19,15 +19,10 @@ namespace seneca {
 		void resize(size_t newCapacity);
 		Team();
 		Team(const char* name);
-		//Destructor
 		~Team();
-		// Copy constructor
 		Team(const Team& other);
-		// Move constructor
 		Team(Team&& other) noexcept;
-		// Copy assignment operator
 		Team& operator=(const Team& other);
-		// Move assignment operator
 		Team& operator=(Team&& other) noexcept;
 		void addMember(const Character* c);
 		void removeMember(const std::string& name);
