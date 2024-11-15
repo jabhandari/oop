@@ -47,24 +47,6 @@ namespace seneca {
 
     Book* Book::createItem(const std::string& strBook)
     {
-
-       /* if (strBook.empty() || strBook[0] == '#') {
-            throw std::invalid_argument("Not a valid book.");
-        }
-
-        std::istringstream stream(strBook);
-        std::string author, title, country, price, year, summary;
-        getline(stream, author, ',');
-        getline(stream, title, ',');
-        getline(stream, country, ',');
-        getline(stream, price, ',');
-        getline(stream, year, ',');
-        getline(stream, summary, ',');
-
-        author.erase(0, author.find_first_not_of(" \t"));
-        author.erase(author.find_last_not_of(" \t") + 1);
-
-        return new Book(author, title, country, std::stod(price), std::stoi(year), summary);*/
         std::string tokens[6]{};
 
         if (strBook[0] == '#' || strBook.empty())

@@ -5,9 +5,7 @@
 #include "settings.h"
 namespace seneca {
 
-    ///TvShow::TvShow(unsigned int id, const std::string& title, const std::string& summary, unsigned short year)
-    //    : MediaItem(title, summary, year), m_id(id) {}
-   
+     
     TvShow::TvShow(const std::string& id, const std::string& title, unsigned short year, const std::string& summary) :
         MediaItem(title, summary, year), m_id(id) {}
 
@@ -64,28 +62,7 @@ namespace seneca {
 
     TvShow* TvShow::createItem(const std::string& strShow)
     {
-       /* if (strShow.empty() || strShow[0] == '#')
-            throw std::invalid_argument("Not a valid show.");
-
-        std::istringstream ss(strShow);
-        std::string token;
-        std::vector<std::string> tokens;
-
-        while (std::getline(ss, token, ','))
-        {
-            MediaItem::trim(token);
-            tokens.push_back(token);
-        }
-
-        if (tokens.size() != 4)
-            throw std::invalid_argument("Invalid format for show data.");
-
-        unsigned int id = std::stoi(tokens[0]);
-        unsigned short year = static_cast<unsigned short>(std::stoi(tokens[2]));
-
-        return new TvShow(id, tokens[1], tokens[3], year);*/
-
-        // Check for comment line or empty string
+      
         if (strShow[0] == '#' || strShow.empty())
             throw "Not a valid show.";
 
@@ -94,26 +71,21 @@ namespace seneca {
         std::string token;
         size_t idx{ 0 };
 
-        // Read tokens from the string
+        
         while (std::getline(ss, token, ',') && idx < 4)
         {
-            MediaItem::trim(token); // Remove spaces from token
+            MediaItem::trim(token); 
             tokens[idx++] = token;
         }
 
         TvShow* temp = new TvShow(tokens[0], tokens[1], static_cast<unsigned short>(std::stoi(tokens[2])), tokens[3]);
-
-        // Create and return TvShow object
         return temp;
     }
 
 
     double TvShow::getEpisodeAverageLength() const
     {
-       /* auto totalLength = std::accumulate(m_episodes.begin(), m_episodes.end(), 0, [](int sum, const TvEpisode& ep) {
-            return sum + ep.m_length;
-            });
-        return m_episodes.empty() ? 0 : static_cast<double>(totalLength) / m_episodes.size();*/
+      
         return std::accumulate(m_episodes.begin(), m_episodes.end(), (double)0,
             [&](double total, const TvEpisode& ep)
             {
@@ -123,11 +95,6 @@ namespace seneca {
 
     std::list<std::string> TvShow::getLongEpisodes() const
     {
-        //std::list<std::string> longEpisodes;
-        //std::copy_if(m_episodes.begin(), m_episodes.end(), std::back_inserter(longEpisodes), [](const TvEpisode& ep) {
-        //    return ep.m_length >= 3600; ///////////////////
-        //    });
-        //return longEpisodes;
         std::list<std::string> longEpisode;
 
         std::for_each(m_episodes.begin(), m_episodes.end(), [&](const TvEpisode& episode)
