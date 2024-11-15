@@ -1,0 +1,137 @@
+#ifndef SENECA_TVSHOW_H
+#define SENECA_TVSHOW_H
+#include <sstream>
+#include <iomanip>
+#include <numeric>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <list>
+#include "mediaItem.h"
+#include "collection.h"
+
+namespace seneca {
+    class TvShow;
+    struct TvEpisode
+    {
+        const TvShow* m_show{};
+        unsigned short m_numberOverall{};
+        unsigned short m_season{};
+        unsigned short m_numberInSeason{};
+        std::string m_airDate{};
+        unsigned int m_length{};
+        std::string m_title{};
+        std::string m_summary{};
+
+    };
+
+    class TvShow : public MediaItem
+    {
+        std::string m_id{};
+        std::vector<TvEpisode> m_episodes;
+
+        TvShow(const std::string& id, const std::string& title, unsigned short year, const std::string& summary);
+        //   TvShow(unsigned int id, const std::string& title, const std::string& summary, unsigned short year);
+
+    public:
+        void display(std::ostream& out) const override;
+
+        static TvShow* createItem(const std::string& strShow);
+        double getEpisodeAverageLength() const;
+
+        std::list<std::string> getLongEpisodes() const;
+
+
+        template<typename Collection_t>
+       static  void addEpisode(Collection_t& col, const std::string& strEpisode);
+            /*{
+
+            if (strEpisode.empty() || strEpisode[0] == '#')
+                throw std::invalid_argument("Not a valid episode.");
+
+            std::istringstream ss(strEpisode);
+            std::string token;
+            std::vector<std::string> tokens;
+
+            while (std::getline(ss, token, ','))
+            {
+                MediaItem::trim(token);
+                tokens.push_back(token);
+            }
+
+            if (tokens.size() != 8)
+                throw std::invalid_argument("Invalid format for episode data.");
+
+            unsigned int showId = std::stoi(tokens[0]);
+            TvEpisode episode;
+            episode.m_numberOverall = static_cast<unsigned short>(std::stoi(tokens[1]));
+            episode.m_season = tokens[2].empty() ? 1 : static_cast<unsigned short>(std::stoi(tokens[2]));
+            episode.m_numberInSeason = static_cast<unsigned short>(std::stoi(tokens[3]));
+            episode.m_airDate = tokens[4];
+            episode.m_length = std::stoi(tokens[5]);
+            episode.m_title = tokens[6];
+            episode.m_summary = tokens[7];
+
+            auto it = std::find_if(col.begin(), col.end(), [showId](const auto& show) { return show->m_id == showId; });
+            if (it != col.end())
+            {
+                (*it)->m_episodes.push_back(episode);
+            }
+        }*/
+
+       
+    };
+    template<typename Collection_t>
+    static void TvShow::addEpisode(Collection_t& col, const std::string& strEpisode)
+    {
+
+        if (strEpisode.empty() || strEpisode[0] == '#')
+        {
+            throw "Not a valid episode.";
+        }
+
+        std::istringstream stream(strEpisode);
+        std::string id;
+        std::string token;
+        std::string tokens[8];
+        size_t idx = 0;
+        TvShow* show = nullptr;
+
+        while (std::getline(stream, token, ',') && idx < 8)
+        {
+            MediaItem::trim(token);
+            tokens[idx++] = token;
+        }
+
+        if (idx != 8)
+        {
+            throw "Not a valid episode.";
+        }
+
+        id = tokens[0];
+        for (size_t i = 0; i < col.size() && show == nullptr; i++)
+        {
+            show = dynamic_cast<TvShow*>(col[i]);
+            if (show->m_id != id)
+            {
+                show = nullptr;
+            }
+        }
+        if (show)
+        {
+            TvEpisode episode = { show, std::stoi(tokens[1])
+                , tokens[2].empty() ? 1 : std::stoi(tokens[2])
+                , std::stoi(tokens[3]), tokens[4] ,std::stoi(tokens[5])
+                , tokens[6], tokens[7] };
+            show->m_episodes.push_back(episode);
+        }
+       
+    
+
+      
+    };
+
+}
+
+#endif 
+
