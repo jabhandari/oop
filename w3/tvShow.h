@@ -30,7 +30,6 @@ namespace seneca {
         std::vector<TvEpisode> m_episodes;
 
         TvShow();
-
         TvShow(const std::string& id, const std::string& title, unsigned short year, const std::string& summary);
 
     public:
@@ -45,12 +44,11 @@ namespace seneca {
         template <typename Collection_t>
         static void addEpisode(Collection_t& col, const std::string& strEpisode);
 
-        static unsigned int calculateSeconds(std::string& strTime);
     };
 
     template <typename Collection_t>
     void TvShow::addEpisode(Collection_t& col, const std::string& strEpisode) {
-        
+       
         std::string temp = strEpisode;
         MediaItem::trim(temp);
         if (temp.empty() || temp[0] == '#') {
@@ -87,12 +85,7 @@ namespace seneca {
         pos = temp.find(',');
         std::string strSeason = temp.substr(0, pos);
         MediaItem::trim(strSeason);
-        if (strSeason.empty()) {
-            episode.m_season = 1;
-        }
-        else {
-            episode.m_season = std::stoi(strSeason);
-        }
+        episode.m_season = strSeason.empty() ? 1 : std::stoi(strSeason);
         temp = temp.substr(pos + 1);
 
         pos = temp.find(',');
@@ -110,7 +103,21 @@ namespace seneca {
         pos = temp.find(',');
         std::string strLength = temp.substr(0, pos);
         MediaItem::trim(strLength);
-        episode.m_length = calculateSeconds(strLength);
+
+        if (strLength.find(':') != std::string::npos) {
+            strLength.replace(strLength.find(':'), 1, " ");
+        }
+        if (strLength.find(':') != std::string::npos) {
+            strLength.replace(strLength.find(':'), 1, " ");
+        }
+        if (strLength.find('.') != std::string::npos) {
+            strLength.replace(strLength.find('.'), 1, " ");
+        }
+        std::stringstream ss(strLength);
+        unsigned int hours = 0, minutes = 0, seconds = 0;
+        ss >> hours >> minutes >> seconds;
+        episode.m_length = hours * 3600 + minutes * 60 + seconds;
+
         temp = temp.substr(pos + 1);
 
         pos = temp.find(',');

@@ -88,15 +88,13 @@ namespace seneca {
             MediaItem::trim(temp);
             std::string summary = temp;
 
-            return new TvShow(id, title, year, summary);
-        
+            return new TvShow(id, title, year, summary);   
     }
    
 
 
     double TvShow::getEpisodeAverageLength() const
     {
-
         return std::accumulate(m_episodes.begin(), m_episodes.end(), (double)0,
             [&](double total, const TvEpisode& ep)
             {
@@ -116,23 +114,7 @@ namespace seneca {
                 }
             });
         return longEpisode;
+      
     }
-    unsigned int TvShow::calculateSeconds(std::string& strTime)
-    {
-        if (strTime.find(':') != std::string::npos) {
-            strTime.replace(strTime.find(':'), 1, " ");
-        }
-        if (strTime.find(':') != std::string::npos) {
-            strTime.replace(strTime.find(':'), 1, " ");
-        }
-        if (strTime.find('.') != std::string::npos) {
-            strTime.replace(strTime.find('.'), 1, " ");
-        }
-        std::stringstream ss(strTime);
-        unsigned int hours = 0, minutes = 0, seconds = 0;
-        ss >> hours >> minutes >> seconds;
-        return hours * 3600 + minutes * 60 + seconds;
-
-        return 0;
-    }
+    
 }
