@@ -5,11 +5,12 @@
 #include <stdexcept>
 
 namespace seneca {
+    Movie::Movie() : MediaItem("", "", 0) {}
 
-    Movie::Movie(const std::string& title, const std::string& summary, unsigned short year)
-        : MediaItem(title, summary, year) 
-    {
-    }
+    Movie::Movie(const std::string& title, unsigned short year, const std::string& summary)
+        : MediaItem(title, summary, year) {}
+
+    
 
     void Movie::display(std::ostream& out) const {
         if (g_settings.m_tableView) {
@@ -43,25 +44,30 @@ namespace seneca {
     }
 
     Movie* Movie::createItem(const std::string& strMovie) {
+    
         if (strMovie.empty() || strMovie[0] == '#') {
-            throw std::invalid_argument("Not a valid movie.");
+            throw "Not a valid movie.";
         }
 
-        std::string tokens[3];
-        std::stringstream ss(strMovie);
-        std::string token;
-        size_t idx = 0;
+        std::string temp = strMovie;
+        size_t pos = 0;
 
-        while (std::getline(ss, token, ',') && idx < 3) {
-            MediaItem::trim(token); 
-            tokens[idx++] = token;
-        }
+        pos = temp.find(',');
+        std::string strTitle = temp.substr(0, pos);
+        MediaItem::trim(strTitle);
+        temp = temp.substr(pos + 1);
 
-        if (idx < 3) {
-            throw std::invalid_argument("Not enough data to create a movie.");
-        }
+        pos = temp.find(',');
+        std::string strYear = temp.substr(0, pos);
+        MediaItem::trim(strYear);
+        unsigned short year = static_cast<unsigned short>(std::stoi(strYear));
+        temp = temp.substr(pos + 1);
 
-        return new Movie(tokens[0], tokens[1], static_cast<unsigned short>(std::stoi(tokens[2])));
+        MediaItem::trim(temp);
+        std::string summary = temp;
+
+        return new Movie(strTitle, year, summary);
     }
+    
 
 }

@@ -4,8 +4,8 @@
 #include <numeric>
 #include "settings.h"
 namespace seneca {
+    TvShow::TvShow() : MediaItem("", "", 0), m_id("") {}
 
-     
     TvShow::TvShow(const std::string& id, const std::string& title, unsigned short year, const std::string& summary) :
         MediaItem(title, summary, year), m_id(id) {}
 
@@ -60,32 +60,43 @@ namespace seneca {
         }
     }
 
-    TvShow* TvShow::createItem(const std::string& strShow)
+    TvShow* TvShow::createItem(const std::string& strTvShow)
     {
-      
-        if (strShow[0] == '#' || strShow.empty())
-            throw "Not a valid show.";
+            if (strTvShow.empty() || strTvShow[0] == '#') {
+                throw "Not a valid show.";
+            }
 
-        std::string tokens[4]{};
-        std::stringstream ss(strShow);
-        std::string token;
-        size_t idx{ 0 };
+            std::string temp = strTvShow;
+            size_t pos = 0;
 
+            pos = temp.find(',');
+            std::string id = temp.substr(0, pos);
+            MediaItem::trim(id);
+            temp = temp.substr(pos + 1);
+
+            pos = temp.find(',');
+            std::string title = temp.substr(0, pos);
+            MediaItem::trim(title);
+            temp = temp.substr(pos + 1);
+
+            pos = temp.find(',');
+            std::string strYear = temp.substr(0, pos);
+            MediaItem::trim(strYear);
+            unsigned short year = static_cast<unsigned short>(std::stoi(strYear));
+            temp = temp.substr(pos + 1);
+
+            MediaItem::trim(temp);
+            std::string summary = temp;
+
+            return new TvShow(id, title, year, summary);
         
-        while (std::getline(ss, token, ',') && idx < 4)
-        {
-            MediaItem::trim(token); 
-            tokens[idx++] = token;
-        }
-
-        TvShow* temp = new TvShow(tokens[0], tokens[1], static_cast<unsigned short>(std::stoi(tokens[2])), tokens[3]);
-        return temp;
     }
+   
 
 
     double TvShow::getEpisodeAverageLength() const
     {
-      
+
         return std::accumulate(m_episodes.begin(), m_episodes.end(), (double)0,
             [&](double total, const TvEpisode& ep)
             {
@@ -105,5 +116,23 @@ namespace seneca {
                 }
             });
         return longEpisode;
+    }
+    unsigned int TvShow::calculateSeconds(std::string& strTime)
+    {
+        if (strTime.find(':') != std::string::npos) {
+            strTime.replace(strTime.find(':'), 1, " ");
+        }
+        if (strTime.find(':') != std::string::npos) {
+            strTime.replace(strTime.find(':'), 1, " ");
+        }
+        if (strTime.find('.') != std::string::npos) {
+            strTime.replace(strTime.find('.'), 1, " ");
+        }
+        std::stringstream ss(strTime);
+        unsigned int hours = 0, minutes = 0, seconds = 0;
+        ss >> hours >> minutes >> seconds;
+        return hours * 3600 + minutes * 60 + seconds;
+
+        return 0;
     }
 }

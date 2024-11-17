@@ -3,7 +3,7 @@
 #include <sstream>
 #include<iomanip>
 namespace seneca {
-
+    Book::Book() : MediaItem("", "", 0), m_author(""), m_country(""), m_price(0) {}
     void Book::display(std::ostream& out) const
     {
         {
@@ -47,24 +47,40 @@ namespace seneca {
 
     Book* Book::createItem(const std::string& strBook)
     {
-        std::string tokens[6]{};
-
-        if (strBook[0] == '#' || strBook.empty())
-        {
+        if (strBook.empty() || strBook[0] == '#') {
             throw "Not a valid book.";
         }
+        std::string temp = strBook;
+        size_t pos = 0;
 
-        std::stringstream ss(strBook);
-        std::string empty;
-        size_t idx{ 0 };
+        pos = temp.find(',');
+        std::string strAuthor = temp.substr(0, pos);
+        MediaItem::trim(strAuthor);
+        temp = temp.substr(pos + 1);
 
-        while (std::getline(ss, tokens[idx++], ',') && idx < 6)
-        {
-            MediaItem::trim(tokens[idx]);
-        };
+        pos = temp.find(',');
+        std::string strTitle = temp.substr(0, pos);
+        MediaItem::trim(strTitle);
+        temp = temp.substr(pos + 1);
 
-        Book* temp = new Book{ tokens[0], tokens[1], tokens[2], std::stod(tokens[3]), static_cast<unsigned short>(std::stoi(tokens[4])), tokens[5] };
+        pos = temp.find(',');
+        std::string strCountry = temp.substr(0, pos);
+        MediaItem::trim(strCountry);
+        temp = temp.substr(pos + 1);
 
-        return temp;
+        pos = temp.find(',');
+        std::string strPrice = temp.substr(0, pos);
+        double price = std::stod(strPrice);
+        temp = temp.substr(pos + 1);
+
+        pos = temp.find(',');
+        std::string strYear = temp.substr(0, pos);
+        unsigned short year = static_cast<unsigned short>(std::stoi(strYear));
+        temp = temp.substr(pos + 1);
+
+        MediaItem::trim(temp);
+        std::string summary = temp;
+
+        return new Book(strTitle, summary, year, strAuthor, strCountry, price);
     }
 }
